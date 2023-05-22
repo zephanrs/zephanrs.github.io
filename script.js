@@ -21,13 +21,13 @@ function calculate() {
   let result = 0;
   
   if (operator === '+' || operator === '-') {
-    document.getElementById('captcha-popup').style.display = 'block';
+    document.getElementById('captcha').style.display = 'block';
     document.getElementById('captcha-question').innerText = `${firstNum} ${operator} ${secondNum} = ?`;
     return;
   }
   
   if (operator === '*' || operator === '/') {
-    document.getElementById('paywall-popup').style.display = 'block';
+    document.getElementById('paywall').style.display = 'block';
     return;
   }
   
