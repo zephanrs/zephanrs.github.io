@@ -1,77 +1,61 @@
 let firstNum = '';
 let secondNum = '';
 let operator = '';
-let requiresCaptcha = false;
-let equalsTriggered = false;
+let equalsPressed = false;
 
-const display = document.getElementById('display');
-const numButtons = document.querySelectorAll('.num');
-const operatorButtons = document.querySelectorAll('.operator');
-const equalsButton = document.getElementById('equals');
-const clearButton = document.getElementById('clear');
+function addNum(num) {
+  if (!operator) {
+    firstNum += num;
+    document.getElementById('display').innerText = firstNum;
+  } else {
+    secondNum += num;
+    document.getElementById('display').innerText = secondNum;
+  }
+}
 
-numButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        if (equalsTriggered) {
-            firstNum = '';
-            secondNum = '';
-            operator = '';
-            equalsTriggered = false;
-        }
-        if (operator) {
-            secondNum += button.textContent;
-        } else {
-            firstNum += button.textContent;
-        }
-        display.value = firstNum + operator + secondNum;
-    });
-});
+function setOperator(op) {
+  operator = op;
+  equalsPressed = false;
+}
 
-operatorButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        operator = button.textContent;
-        if (operator === '+' || operator === '/') {
-            document.getElementById('captcha').style.display = 'block';
-        } else if (operator === '*' || operator === '-') {
-            document.getElementById('paywall').style.display = 'block';
-        }
-        display.value = firstNum + operator + secondNum;
-    });
-});
-
-equalsButton.addEventListener('click', () => {
-    if ((operator === '+' || operator === '/') && !requiresCaptcha) {
-        display.value = 'Please solve the captcha.';
-    } else {
-        equalsTriggered = true;
-    }
-});
-
-clearButton.addEventListener('click', () => {
-    firstNum = '';
+function calculate() {
+  let result = 0;
+  
+  if (operator === '+' || operator === '-') {
+    document.getElementById('captcha-popup').style.display = 'block';
+    document.getElementById('captcha-question').innerText = `${firstNum} ${operator} ${secondNum} = ?`;
+  }
+  
+  if (operator === '*' || operator === '/') {
+    document.getElementById('paywall-popup').style.display = 'block';
+  }
+  
+  if (equalsPressed) {
+    if (operator === '+') result = parseFloat(firstNum) + parseFloat(secondNum);
+    if (operator === '-') result = parseFloat(firstNum) - parseFloat(secondNum);
+    if (operator === '*') result = parseFloat(firstNum) * parseFloat(secondNum);
+    if (operator === '/') result = parseFloat(firstNum) / parseFloat(secondNum);
+  
+    document.getElementById('display').innerText = result.toString();
+    firstNum = result.toString();
     secondNum = '';
-    operator = '';
-    display.value = '';
-    document.getElementById('captcha').style.display = 'none';
-    document.getElementById('paywall').style.display = 'none';
-    requiresCaptcha = false;
-    equalsTriggered = false;
-});
+  }
 
-document.getElementById('captcha-submit').addEventListener('click', () => {
-    let captchaInput = document.getElementById('captcha-input').value;
-    display.value = captchaInput;
-    document.getElementById('captcha').style.display = 'none';
-    document.getElementById('captcha-input').value = '';
-    requiresCaptcha = false;
-});
+  equalsPressed = true;
+}
 
-document.getElementById('pay').addEventListener('click', () => {
-    alert('Payment functionality is not implemented in this demo.');
-});
+function submitCaptcha() {
+  document.getElementById('captcha-popup').style.display = 'none';
+  calculate();
+}
 
-document.getElementById('cancel').addEventListener('click', () => {
-    document.getElementById('paywall').style.display = 'none';
-    operator = '';
-    secondNum = '';
-});
+function pay() {
+  window.close();
+}
+
+function clearCalc() {
+  firstNum = '';
+  secondNum = '';
+  operator = '';
+  document.getElementById('display').innerText = '';
+}
