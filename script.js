@@ -19,29 +19,28 @@ function setOperator(op) {
 
 function calculate() {
   let result = 0;
-  
+
   if (operator === '+' || operator === '-') {
     document.getElementById('captcha').style.display = 'block';
-    document.getElementById('captcha-question').defaultValue = `${firstNum} ${operator} ${secondNum} = ?`;
+    document.getElementById('captcha-question').innerText = `${firstNum} ${operator} ${secondNum} = ?`;
     return;
   }
-  
+
   if (operator === '*' || operator === '/') {
     document.getElementById('paywall').style.display = 'block';
     return;
   }
-  
+
   if (operator === '+') result = parseFloat(firstNum) + parseFloat(secondNum);
   if (operator === '-') result = parseFloat(firstNum) - parseFloat(secondNum);
   if (operator === '*') result = parseFloat(firstNum) * parseFloat(secondNum);
   if (operator === '/') result = parseFloat(firstNum) / parseFloat(secondNum);
-  
-  document.getElementById('display').value = result.toString();
+
+  document.getElementById('display').defaultValue = result.toString();
   firstNum = result.toString();
   secondNum = '';
   operator = '';
 }
-
 
 function submitCaptcha() {
   document.getElementById('captcha').style.display = 'none';
@@ -56,5 +55,5 @@ function clearCalc() {
   firstNum = '';
   secondNum = '';
   operator = '';
-  document.getElementById('display').innerText = '';
+  document.getElementById('display').defaultValue = '';
 }
