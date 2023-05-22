@@ -2,15 +2,22 @@ let firstNum = '';
 let secondNum = '';
 let operator = '';
 let requiresCaptcha = false;
+let equalsTriggered = false;
 
 const display = document.getElementById('display');
 const numButtons = document.querySelectorAll('.num');
 const operatorButtons = document.querySelectorAll('.operator');
 const equalsButton = document.getElementById('equals');
-const clearButton = document.getElementById'clear');
+const clearButton = document.getElementById('clear');
 
 numButtons.forEach(button => {
     button.addEventListener('click', () => {
+        if (equalsTriggered) {
+            firstNum = '';
+            secondNum = '';
+            operator = '';
+            equalsTriggered = false;
+        }
         if (operator) {
             secondNum += button.textContent;
         } else {
@@ -22,42 +29,22 @@ numButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        operator = button.dataset.op;
+        operator = button.textContent;
         if (operator === '+' || operator === '/') {
             document.getElementById('captcha').style.display = 'block';
-            requiresCaptcha = true;
         } else if (operator === '*' || operator === '-') {
             document.getElementById('paywall').style.display = 'block';
         }
+        display.value = firstNum + operator + secondNum;
     });
 });
 
 equalsButton.addEventListener('click', () => {
-    if (requiresCaptcha) {
-        alert('Please complete the captcha first.');
-        return;
+    if ((operator === '+' || operator === '/') && !requiresCaptcha) {
+        display.value = 'Please solve the captcha.';
+    } else {
+        equalsTriggered = true;
     }
-    let result;
-    switch (operator) {
-        case '+':
-            result = Number(firstNum) + Number(secondNum);
-            break;
-        case '-':
-            result = Number(firstNum) - Number(secondNum);
-            break;
-        case '*':
-            result = Number(firstNum) * Number(secondNum);
-            break;
-        case '/':
-            result = Number(firstNum) / Number(secondNum);
-            break;
-        default:
-            return;
-    }
-    display.value = result.toString();
-    firstNum = '';
-    secondNum = '';
-    operator = '';
 });
 
 clearButton.addEventListener('click', () => {
@@ -65,17 +52,18 @@ clearButton.addEventListener('click', () => {
     secondNum = '';
     operator = '';
     display.value = '';
+    document.getElementById('captcha').style.display = 'none';
+    document.getElementById('paywall').style.display = 'none';
+    requiresCaptcha = false;
+    equalsTriggered = false;
 });
 
 document.getElementById('captcha-submit').addEventListener('click', () => {
     let captchaInput = document.getElementById('captcha-input').value;
-    if (captchaInput === (firstNum + operator + secondNum)) {
-        requiresCaptcha = false;
-        document.getElementById('captcha').style.display = 'none';
-        document.getElementById('captcha-input').value = '';
-    } else {
-        alert('Captcha answer incorrect.');
-    }
+    display.value = captchaInput;
+    document.getElementById('captcha').style.display = 'none';
+    document.getElementById('captcha-input').value = '';
+    requiresCaptcha = false;
 });
 
 document.getElementById('pay').addEventListener('click', () => {
