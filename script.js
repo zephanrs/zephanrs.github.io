@@ -36,13 +36,15 @@ function calculate() {
   if (operator === '*') result = parseFloat(firstNum) * parseFloat(secondNum);
   if (operator === '/') result = parseFloat(firstNum) / parseFloat(secondNum);
   
-  document.getElementById('display').innerText = result.toString();
+  document.getElementById('display').value = result.toString();
   firstNum = result.toString();
   secondNum = '';
+  operator = '';
 }
 
+
 function submitCaptcha() {
-  document.getElementById('captcha-popup').style.display = 'none';
+  document.getElementById('captcha').style.display = 'none';
   calculate();
 }
 
