@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style.css">
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <div class="calculator">
-    <div class="display" id="display">0</div>
-    <button class="button" onclick="addNumber(1)">1</button>
-    <button class="button" onclick="addNumber(2)">2</button>
-    <button class="button" onclick="addNumber(3)">3</button>
-    <button class="button" onclick="addNumber(4)">4</button>
-    <button class="button" onclick="addNumber(5)">5</button>
-    <button class="button" onclick="addNumber(6)">6</button>
-    <button class="button" onclick="addNumber(7)">7</button>
-    <button class="button" onclick="addNumber(8)">8</button>
-    <button class="button" onclick="addNumber(9)">9</button>
-    <button class="button" onclick="addNumber(0)">0</button>
-    <button class="button" onclick="setOperator('+')">+</button>
-    <button class="button" onclick="setOperator('-')">-</button>
-    <button class="button" onclick="setOperator('*')">*</button>
-    <button class="button" onclick="setOperator('/')">/</button>
-    <button class="button" onclick="calculate()">=</button>
-  </div>
-  
-  <div class="paywall" id="paywall">
-    <p>Pay $10 for the premium features!</p>
-    <button onclick="closePaywall()">Cancel</button>
-    <button style="background-color: blue; color: white;">$10</button>
-  </div>
+    <div id="calculator">
+        <input type="text" id="display" readonly>
+        <div id="buttons">
+            <button class="num">1</button>
+            <button class="num">2</button>
+            <button class="num">3</button>
+            <button class="operator" data-op="+">+</button>
+            <button class="num">4</button>
+            <button class="num">5</button>
+            <button class="num">6</button>
+            <button class="operator" data-op="-">-</button>
+            <button class="num">7</button>
+            <button class="num">8</button>
+            <button class="num">9</button>
+            <button class="operator" data-op="*">*</button>
+            <button class="num">0</button>
+            <button id="equals">=</button>
+            <button id="clear">C</button>
+            <button class="operator" data-op="/">/</button>
+        </div>
+    </div>
 
-  <script src="main.js"></script>
+    <div id="captcha" class="popup">
+        <h2>Please confirm that you're human</h2>
+        <p>What is the problem you just entered?</p>
+        <input id="captcha-input" type="text">
+        <button id="captcha-submit">Submit</button>
+    </div>
+
+    <div id="paywall" class="popup">
+        <h2>Premium Feature</h2>
+        <p>To use multiplication or division, please pay $10 for premium features.</p>
+        <button id="pay">Pay $10</button>
+        <button id="cancel">Cancel</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
