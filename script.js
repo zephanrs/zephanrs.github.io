@@ -5,16 +5,16 @@ let operator = '';
 function addNum(num) {
   if (!operator) {
     firstNum += num;
-    document.getElementById('display').value = firstNum;
+    document.getElementById('display').defaultValue = firstNum;
   } else {
     secondNum += num;
-    document.getElementById('display').value = secondNum;
+    document.getElementById('display').defaultValue = secondNum;
   }
 }
 
 function setOperator(op) {
   operator = op;
-  document.getElementById('display').value = operator;
+  document.getElementById('display').defaultValue = operator;
 }
 
 function calculate() {
@@ -22,7 +22,7 @@ function calculate() {
   
   if (operator === '+' || operator === '-') {
     document.getElementById('captcha').style.display = 'block';
-    document.getElementById('captcha-question').value = `${firstNum} ${operator} ${secondNum} = ?`;
+    document.getElementById('captcha-question').defaultValue = `${firstNum} ${operator} ${secondNum} = ?`;
     return;
   }
   
