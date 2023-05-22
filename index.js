@@ -1,43 +1,40 @@
-async function btn() {
-    var username = document.getElementById('input1').value
-    const url = 'https://api.hypixel.net/player?key=220986b8-7656-4d7f-a1d7-dc2ef20ba7a8&name=' + username
-    const body = { a: 1 };
+let number1 = '';
+let number2 = '';
+let operator = '';
 
-    fetch(url, (body))
-            .then(res => res.json())
-            .then(data =>{
-                if(data.player.uuid) {
-                    var uuid = data.player.uuid
+function addNumber(num) {
+  if (operator === '') {
+    number1 += num;
+    document.getElementById('display').innerText = number1;
+  } else {
+    number2 += num;
+    document.getElementById('display').innerText = number2;
+  }
+}
 
-                    gexp(uuid)
-                
-                    document.getElementById('query').style.display = 'none'
-                    document.getElementById('data').style.display = 'block'
-                }})
-        }
-async function gexp(uuid) {
-    const url = 'https://api.hypixel.net/findGuild?key=220986b8-7656-4d7f-a1d7-dc2ef20ba7a8&byUuid=' + uuid
-    const body = { a: 1 };
+function setOperator(oper) {
+  if (oper === '*' || oper === '/') {
+    document.getElementById('paywall').style.display = 'block';
+    return;
+  }
 
-    fetch(url, (body))
-            .then(res => res.json())
-            .then(data =>{
-                const url = 'https://api.hypixel.net/guild?key=220986b8-7656-4d7f-a1d7-dc2ef20ba7a8&id=' + data.guild
-                const body = { a: 1 };
+  operator = oper;
+}
 
-                fetch(url, (body))
-                    .then(res => res.json())
-                    .then(data =>{
-                        const member = data.guild.members.find(member => member.uuid === uuid)
+function closePaywall() {
+  document.getElementById('paywall').style.display = 'none';
+}
 
-                        const gxp = new Intl.NumberFormat().format(Object.values(member.expHistory).reduce((a, b) => a + b, 0))
-
-                        document.getElementById('p2').innerHTML = gxp
-                    })
-            })
-    
-    setTimeout(() => {
-        gexp(uuid)
-    }, 60000);
-                
+function calculate() {
+  if (operator === '+') {
+    let captcha = prompt("Prove you're not a robot. What's " + number1 + " + " + number2 + "?");
+    document.getElementById('display').innerText = captcha;
+  } else if (operator === '-') {
+    let captcha = prompt("Prove you're not a robot. What's " + number1 + " - " + number2 + "?");
+    document.getElementById('display').innerText = captcha;
+  }
+  
+  number1 = '';
+  number2 = '';
+  operator = '';
 }
