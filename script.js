@@ -1,7 +1,6 @@
 let firstNum = '';
 let secondNum = '';
 let operator = '';
-let equalsPressed = false;
 
 function addNum(num) {
   if (!operator) {
@@ -15,7 +14,7 @@ function addNum(num) {
 
 function setOperator(op) {
   operator = op;
-  equalsPressed = false;
+  document.getElementById('display').innerText = operator;
 }
 
 function calculate() {
@@ -24,24 +23,22 @@ function calculate() {
   if (operator === '+' || operator === '-') {
     document.getElementById('captcha-popup').style.display = 'block';
     document.getElementById('captcha-question').innerText = `${firstNum} ${operator} ${secondNum} = ?`;
+    return;
   }
   
   if (operator === '*' || operator === '/') {
     document.getElementById('paywall-popup').style.display = 'block';
+    return;
   }
   
-  if (equalsPressed) {
-    if (operator === '+') result = parseFloat(firstNum) + parseFloat(secondNum);
-    if (operator === '-') result = parseFloat(firstNum) - parseFloat(secondNum);
-    if (operator === '*') result = parseFloat(firstNum) * parseFloat(secondNum);
-    if (operator === '/') result = parseFloat(firstNum) / parseFloat(secondNum);
+  if (operator === '+') result = parseFloat(firstNum) + parseFloat(secondNum);
+  if (operator === '-') result = parseFloat(firstNum) - parseFloat(secondNum);
+  if (operator === '*') result = parseFloat(firstNum) * parseFloat(secondNum);
+  if (operator === '/') result = parseFloat(firstNum) / parseFloat(secondNum);
   
-    document.getElementById('display').innerText = result.toString();
-    firstNum = result.toString();
-    secondNum = '';
-  }
-
-  equalsPressed = true;
+  document.getElementById('display').innerText = result.toString();
+  firstNum = result.toString();
+  secondNum = '';
 }
 
 function submitCaptcha() {
