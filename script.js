@@ -5,16 +5,15 @@ let operator = '';
 function addNum(num) {
   if (!operator) {
     firstNum += num;
-    document.getElementById('display').value = firstNum;
   } else {
     secondNum += num;
-    document.getElementById('display').value = secondNum;
   }
+  document.getElementById('display').value += num;
 }
 
 function setOperator(op) {
   operator = op;
-  document.getElementById('display').value = operator;
+  document.getElementById('display').value += operator;
 }
 
 function calculate() {
@@ -22,7 +21,7 @@ function calculate() {
 
   if (operator === '+' || operator === '-') {
     document.getElementById('captcha').style.display = 'block';
-    document.getElementById('captcha-question').innerText = `${firstNum} ${operator} ${secondNum} = ?`;
+    document.getElementById('captcha-input').placeholder = `What is ${firstNum} ${operator} ${secondNum}?`;
     return;
   }
 
@@ -43,8 +42,26 @@ function calculate() {
 }
 
 function submitCaptcha() {
+  let captchaAnswer = document.getElementById('captcha-input').value;
+
   document.getElementById('captcha').style.display = 'none';
-  calculate();
+  document.getElementById('display').value = captchaAnswer;
+
+  firstNum = captchaAnswer;
+  secondNum = '';
+  operator = '';
+  document.getElementById('captcha-input').value = '';
+}
+
+function pay() {
+  window.close();
+}
+
+function clearCalc() {
+  firstNum = '';
+  secondNum = '';
+  operator = '';
+  document.getElementById('display').value = '';
 }
 
 window.onload = function() {
@@ -66,15 +83,4 @@ window.onload = function() {
   document.getElementById('clear').addEventListener('click', clearCalc);
   document.getElementById('captcha-submit').addEventListener('click', submitCaptcha);
   document.getElementById('pay').addEventListener('click', pay);
-}
-
-function pay() {
-  window.close();
-}
-
-function clearCalc() {
-  firstNum = '';
-  secondNum = '';
-  operator = '';
-  document.getElementById('display').defaultValue = '';
 }
