@@ -57,6 +57,10 @@ function pay() {
   window.close();
 }
 
+function cancel() {
+  document.getElementById('paywall').style.display = 'none';
+}
+
 function clearCalc() {
   firstNum = '';
   secondNum = '';
@@ -83,4 +87,5 @@ window.onload = function() {
   document.getElementById('clear').addEventListener('click', clearCalc);
   document.getElementById('captcha-submit').addEventListener('click', submitCaptcha);
   document.getElementById('pay').addEventListener('click', pay);
+  document.getElementById('cancel').addEventListener('click', cancel);
 }
